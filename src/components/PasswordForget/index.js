@@ -2,11 +2,28 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
+
+
+import { 
+	Grid,
+	Header,
+	Form,
+	Segment,
+	Button
+} from 'semantic-ui-react';
+
 const PasswordForgetPage = () => (
-  <div>
-    <h1>PasswordForget</h1>
-    <PasswordForgetForm />
-  </div>
+  <Grid 
+    verticalAlign = 'middle'
+    textAlign = 'center'
+  >
+    <Grid.Column  
+    verticalAlign = 'middle'
+    style={{ maxWidth: 450 }}
+    >
+      <PasswordForgetForm />
+    </Grid.Column>
+  </Grid> 
 );
 const INITIAL_STATE = {
   email: '',
@@ -35,20 +52,34 @@ class PasswordForgetFormBase extends Component {
   render() {
     const { email, error } = this.state;
     const isInvalid = email === '';
+
     return (
-      <form onSubmit={this.onSubmit}>
-        <input
-          name="email"
-          value={this.state.email}
-          onChange={this.onChange}
-          type="text"
-          placeholder="Email Address"
-        />
-        <button disabled={isInvalid} type="submit">
-          Reset My Password
-        </button>
-        {error && <p>{error.message}</p>}
-      </form>
+		<>
+    		<Header as ='h2' color ='teal' textAlign = 'center'>Password Reset</Header>
+    		<Form size = 'small' onSubmit={this.onSubmit} >
+    		    <Segment stacked>
+    		      <Form.Input
+						    fuid
+                name = 'email'
+                label = 'Email'
+						    icon = 'user'
+						    value = {email}
+    		        type = 'text'
+    		        onChange = {this.onChange}
+    		        iconPosition = 'left'
+    		        placeholder = 'email@host.com'
+    		      />
+    		    </Segment>
+            <Button 
+    		      color = 'teal'
+						  fluid
+						  disabled = {isInvalid}
+    		      type = 'submit'
+    		      size = 'large'
+    		    >Reset My Password</Button>
+    		    {error && <p>{error.message}</p>}
+    		</Form>
+		</>
     );
   }
 }

@@ -1,51 +1,71 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import AppBar from '@material-ui/core/AppBar';
-
-
 import SignOutButton from '../SignOut';
 import * as ROUTES from '../../constants/routes';
 
 import { AuthUserContext } from '../Session';
 
+import {
+    Menu,
+    Dropdown,
+    Icon
+} from 'semantic-ui-react';
+
 const Navigation = () => (
-  <div>
+  <>
     <AuthUserContext.Consumer>
       {authUser =>
-        authUser ? <NavigationAuth /> : <NavigationNonAuth />
+        authUser ? <NavigationAuth user={authUser} /> : <NavigationNonAuth />
       }
     </AuthUserContext.Consumer>
-  </div>
+  </>
 );
 
-const NavigationAuth = () => (
-  <ul>
-    <li>
-      <Link to={ROUTES.LANDING}>Landing</Link>
-    </li>
-    <li>
-      <Link to={ROUTES.HOME}>Home</Link>
-    </li>
-    <li>
-      <Link to={ROUTES.ACCOUNT}>Account</Link>
-    </li>
-    <li>
-      <Link to={ROUTES.ADMIN}>Admin</Link>
-    </li>
-    <li>
-      <SignOutButton />
-    </li>
-  </ul>
+const NavigationAuth = ({user}) => (
+  <Menu
+  inverted
+  borderless
+  fluid
+  >
+    <Menu.Menu position='left'>
+        <Menu.Item as={Link} to={ROUTES.HOME} icon='home'/>
+    </Menu.Menu>
+    <Menu.Menu position='right'>
+        <Dropdown
+          text={user.email}
+          item
+          floating
+          pointing
+        >
+          <Dropdown.Menu>
+            <Dropdown.Item as={Link} to={ROUTES.ACCOUNT}>Profile</Dropdown.Item>
+            <Dropdown.Item as={Link} to={ROUTES.HOME}>Event Panel</Dropdown.Item>
+            <Dropdown.Item as={Link} to={ROUTES.USERPANEL}>User Panel</Dropdown.Item>
+            <Dropdown.Item>
+              <SignOutButton/>
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+    </Menu.Menu>
+</Menu>
 );
 const NavigationNonAuth = () => (
-  <ul>
-    <li>
-      <Link to={ROUTES.LANDING}>Landing</Link>
-    </li>
-    <li>
-      <Link to={ROUTES.SIGN_IN}>Sign In</Link>
-    </li>
-  </ul>
+    <Menu
+      inverted
+      borderless
+      fluid
+    >
+        <Menu.Menu position='left'>
+            <Menu.Item as={Link} to={ROUTES.LANDING}>
+            <Icon name='home' size='big'/>
+            </Menu.Item>
+        </Menu.Menu>
+        <Menu.Menu position='right' >
+            <Menu.Item as={Link} to={ROUTES.SIGN_IN}>
+              <Icon name='user' size='big' />
+            </Menu.Item>
+        </Menu.Menu>
+    </Menu>
 );
 
 export default Navigation;

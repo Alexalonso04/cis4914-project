@@ -15,6 +15,10 @@ import AdminPage from '../Admin';
 import { AuthUserContext } from '../Session';
 import * as ROUTES from '../../constants/routes';
 import { withFirebase } from '../Firebase';
+import FaceRecognition from '../FaceRecognition';
+import Recognizer from '../Recognizer';
+import NewUser from "../NewUser";
+import UserPanel from "../UserPanel";
 
 class App extends Component {
   constructor(props) {
@@ -32,6 +36,7 @@ class App extends Component {
           },
       );
   }
+
   componentWillUnmount() {
       this.listener();
   }
@@ -49,13 +54,16 @@ class App extends Component {
                           <Route path={ROUTES.PASSWORD_FORGET} component={PasswordForgetPage} />
                           <Route path={ROUTES.HOME} component={HomePage} />
                           <Route path={ROUTES.ACCOUNT} component={AccountPage} />
-                          <Route path={ROUTES.ADMIN} component={AdminPage} />
+                          <Route path={ROUTES.RECOGNIZER} component={Recognizer} />
+                          <Route path={ROUTES.NEWUSER} component={NewUser} />
+                          <Route path={ROUTES.USERPANEL} component={UserPanel} />
                       </Switch>
                   </div>
               </Router>
           </AuthUserContext.Provider>
       );
   }
+
 }
 
 export default withFirebase(App);
